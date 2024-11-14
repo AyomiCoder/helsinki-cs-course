@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    User->>Browser: Goes to https://studies.cs.helsinki.fi/exampleapp/spa
+
+    Browser->>Server: GET /spa
+    activate Server
+    Server-->>Browser: HTML document for SPA
+    deactivate Server
+
+    Browser->>Server: GET /main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET /spa.js
+    activate Server
+    Server-->>Browser: JavaScript file (SPA logic)
+    deactivate Server
+
+    Note right of Browser: Browser executes JavaScript, setting up the SPA and fetching initial notes data
+
+    Browser->>Server: GET /data.json
+    activate Server
+    Server-->>Browser: JSON data for notes [{ "content": "Example note", "date": "2023-11-14" }, ... ]
+    deactivate Server
+
+    Note right of Browser: JavaScript renders the notes within the SPA without reloading the page

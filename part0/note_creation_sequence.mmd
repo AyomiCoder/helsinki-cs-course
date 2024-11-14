@@ -1,0 +1,38 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    User->>Browser: Enters note text in text field
+    User->>Browser: Clicks "Save" button
+
+    Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note (with note data)
+    activate Server
+    Server-->>Browser: HTTP response (status 201 Created)
+    deactivate Server
+
+    Note right of Browser: Browser reloads the page to display the new note
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate Server
+    Server-->>Browser: HTML document
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
+
+    Note right of Browser: JavaScript fetches the updated JSON data to display notes
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate Server
+    Server-->>Browser: [{ "content": "Learning to code is not easy, but i love it", "date": "2024-11-14" }, { "content": "Lets get to it!", "date": "2024-11-13" }, ... ]
+    deactivate Server
+
+    Note right of Browser: Browser renders the updated list of notes, including the new note

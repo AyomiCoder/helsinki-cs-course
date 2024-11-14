@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    User->>Browser: Enters note text in text field
+    User->>Browser: Clicks "Save" button
+
+    Note right of Browser: The SPA captures the note data and sends it to the server
+
+    Browser->>Server: POST /new_note_spa (with note content in JSON format)
+    activate Server
+    Server-->>Browser: HTTP response (status 201 Created)
+    deactivate Server
+
+    Note right of Browser: SPA updates the note list without reloading the page
+
+    Browser->>Server: GET /data.json
+    activate Server
+    Server-->>Browser: JSON data for notes including the new note [{ "content": "New note", "date": "2024-11-13" }, ... ]
+    deactivate Server
+
+    Note right of Browser: JavaScript dynamically renders the updated notes list in the SPA
